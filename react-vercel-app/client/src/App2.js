@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 // import axios from 'axios';
 import verifyImages from "./axios/verifyImages";
 import "./App.css";
+// import "./css/App.scss";
 
 const svgIcon = () => (
   <svg
@@ -16,10 +17,10 @@ const svgIcon = () => (
       <defs>
           <mask id="overlay-mask" x="0" y="0" width="100%" height="100%">
               <rect x="0" y="0" width="100%" height="100%" fill="#fff"/>
-              <circle cx="50%" cy="50%" r="70" />
+              <circle cx="50%" cy="50%" r="65" />
           </mask>
       </defs>
-      <rect x="0" y="0" width="100%" height="100%" mask="url(#overlay-mask)" fillOpacity="0.95"/>
+      <rect x="0" y="0" width="100%" height="100%" mask="url(#overlay-mask)" fillOpacity="0.9"/>
     </svg>
 );
 
@@ -54,9 +55,9 @@ function App2() {
             This demo detects if a person is real or fake using Bio ID API
           </p> */}
           <div className="p-2 mx-auto w-4/5">
-            <div className="webcam-container">
+            <div className="webcam-container ">
               <Webcam
-                className=" "
+                className=""
                 audio={false}
                 height={200}
                 mirrored
@@ -64,12 +65,14 @@ function App2() {
                 // forceScreenshotSourceSize = {true}
                 // minScreenshotWidth={150}
                 screenshotFormat="image/jpeg"
-                width={460}
+                width={480}
                 videoConstraints={{
+                  width: 390,
+                  height: 400/(4/3),
                   facingMode: "user",
                 }}
               />
-              <div className="overlay-container rounded-lg">
+              <div className="overlay-container">
               {svgIcon()}
               </div>
             </div>

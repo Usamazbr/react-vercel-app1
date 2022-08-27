@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "client": "cd client && yarn start",
+    "live": "nodemon server.js",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
