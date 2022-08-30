@@ -1,14 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App2 from './App2';
+// import App2 from './App2';
 import reportWebVitals from './reportWebVitals';
 import "./tailwind.generated.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./components/Home";
+import Livedetect from "./components/Livedetect";
+import About from "./components/About";
+import PhotoVerify from "./components/PhotoVerify";
+// import NoPage from "./components/NoPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App2 />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="Livedetect" element={<Livedetect />} />
+          <Route path="About" element={<About />} />
+          <Route path="PhotoVerify" element={<PhotoVerify />} />
+          {/* <Route path="*" element={<NoPage />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+    {/* <App2 /> */}
   </React.StrictMode>
 );
 

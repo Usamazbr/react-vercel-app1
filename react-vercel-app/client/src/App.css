@@ -7,6 +7,12 @@ body{
   /* font-family: 'Kdam Thmor Pro', sans-serif; */
 }
 
+.homeP {
+  margin: auto;
+  align-items: center;
+  height: 50vh;
+}
+
 .webcam-container {
   position: relative;
 }
