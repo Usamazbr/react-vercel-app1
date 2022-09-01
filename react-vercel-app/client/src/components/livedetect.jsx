@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Webcam from "react-webcam";
-// import axios from 'axios';
-import verifyImages from "../axios/verifyImages";
+import axios from 'axios';
+// import VerifyImages from "../axios/VerifyImages";
 import "../App.css";
 // import "./css/App.scss";
+const apiUrl = `http://localhost:5000/api/lived`;
 
 const svgIcon = () => (
     <svg
@@ -24,43 +25,59 @@ const svgIcon = () => (
     </svg>
 );
 
-function App2() {
+function Livedetect() {
     const webcamRef = React.useRef(null);
     const [liveimg1, setImage1] = useState("");
     const [liveimg2, setImage2] = useState("");
-    const [resultbool, setResult] = useState("");
+    const [Resultb, setResultb] = useState();
+    const [Result, setResult] = useState();
+
+    useEffect(() => {
+
+        console.log(Resultb);
+    }, [Resultb]);
+
+    const Verify1 = ({ liveimage1, liveimage2 }) => {
+        //   console.log([liveimage1,liveimage2])
+        let data = { "liveimage1": liveimage1, "liveimage2": liveimage2 }
+        axios
+            .post(
+                apiUrl, data,
+            )
+            .then((res) => {
+                const result1 = res.data;
+                setResultb(result1);
+                setResult(res);
+                // console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     const onVerify = () => {
         const imageSrc1 = webcamRef.current.getScreenshot();
-        // let result1 = false;
         setImage1(imageSrc1);
         // console.log(imageSrc1);
         setTimeout(() => {
             const imageSrc2 = webcamRef.current.getScreenshot();
             setImage2(imageSrc2);
-            verifyImages({ liveimage1: imageSrc1, liveimage2: imageSrc2 });
-            // result1 = verifyImages;
+            Verify1({ liveimage1: imageSrc1, liveimage2: imageSrc2 });
         }, 2000);
-        // setTimeout(() => {
-        //     console.log(result1);
-        // }, 3000)
-        // return verifyImages;
+
     };
-    // console.log([liveimg1,liveimg2]);
-    // console.log(onVerify);
-    //   console.log([liveimage1,liveimage2]);
 
     return (
         <div className="flex flex-col ">
-            <div className="max-w-6xl mx-auto flex p-6 bg-gray-900 mt-10 rounded-lg">
+            <div className="max-w-6xl mx-auto flex p-4 bg-gray-900 mt-20 rounded-lg">
                 <div className="ml-6 pt-1">
                     <h1 className="text-3xl font-bold text-blue-700 leading-tight text-center">
                         Bioid Ware
                     </h1>
-                    {/* <p className="mb-6 text-xl text-gray-600 leading-normal text-center">
-            This demo detects if a person is real or fake using Bio ID API
-          </p> */}
-                    <div className="p-2 mx-auto w-4/5">
+                    <p className="mb-2 text-xl text-gray-600 leading-normal text-center">
+                        Please place your face at the centre of the circle and at the size of it
+                    </p>
+                    <div className="flex flex-row p-4 mx-auto w-4/5">
                         <div className="webcam-container ">
                             <Webcam
                                 className=""
@@ -82,6 +99,18 @@ function App2() {
                                 {svgIcon()}
                             </div>
                         </div>
+                        <div className="flex flex-wrap">
+                            <div className="flex flex-auto mx-2 mb-40 ml-3 justify-center p-4 bg-indigo-900 text-blue-200 hover:text-white mt-3 rounded-lg">
+                                {Result ?
+                                    (<><div className="flex flex-wrap justify-center">Result is {Resultb ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1"> live</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">fake</h1>)}</div></>) : (<><h1 className="py-2 px-3">No data</h1></>)}
+                            </div>
+                            <button
+                                onClick={onVerify}
+                                className="transition duration-500 ease-in-out mx-2 bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 py-2 px-3 rounded-lg mx-auto"
+                            >
+                                Start
+                            </button>
+                        </div>
                     </div>
                     <div className="flex flex-wrap justify-center">
                         {liveimg1 && (
@@ -89,7 +118,7 @@ function App2() {
                                 height={150}
                                 width={300}
                                 src={liveimg1}
-                                className="p-1 bg-gray-900 border rounded-lg"
+                                className="p-1 bg-gray-900 border border-gray-900 hover:border-gray-700 rounded-lg"
                                 alt="imageI"
                             />
                         )}
@@ -98,19 +127,27 @@ function App2() {
                                 height={150}
                                 width={300}
                                 src={liveimg2}
-                                className="p-1 bg-gray-900 border rounded-lg"
+                                className="p-1 bg-gray-900 border border-gray-900 hover:border-gray-700 rounded-lg"
                                 alt="imageI"
                             />
                         )}
                     </div>
                 </div>
             </div>
+            {/* <div className="flex flex-wrap mx-auto mt-3 bg-gray-900 text-blue-200 py-2 px-2 rounded-lg"> */}
+            {/* <div className="flex flex-wrap mx-auto mb-3 bg-gray-900 py-2 px-12 rounded-lg"> */}
             <button
                 onClick={onVerify}
-                className="transition duration-500 ease-in-out mt-3 bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 py-2 px-8 rounded-lg mx-auto"
+                className="transition duration-500 ease-in-out mt-3 bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 py-2 px-3 rounded-lg mx-auto"
             >
                 Try To see if User is Real
             </button>
+            {/* </div> */}
+            {/* <div className="flex flex-auto mx-auto mb-2 justify-center p-2 bg-indigo-900 text-blue-200 hover:text-white mt-3 py-2 px-3 rounded-lg">
+                    {Result ?
+                        (<><div>Result is {Resultb ? (<h1 className="flex flex-wrap justify-center text-green-500 font-bold">live</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold">fake</h1>)}</div></>) : (<><h1 className="flex flex-wrap justify-center pt-2">No data</h1></>)}
+                </div> */}
+            {/* </div> */}
             <div className="max-w-6xl mx-auto flex p-6 bg-gray-900 text-blue-200 mt-10 py-6 px-6 rounded-lg">
                 <p>
                     This demo performs a liveness detection on two selfies to verify whether they were recorded from a live person.
@@ -120,4 +157,4 @@ function App2() {
     );
 }
 
-export default App2;
+export default Livedetect;

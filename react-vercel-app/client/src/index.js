@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import Livedetect from "./components/Livedetect";
 import About from "./components/About";
 import PhotoVerify from "./components/PhotoVerify";
+import Verification from "./components/Verification";
 // import NoPage from "./components/NoPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +23,7 @@ root.render(
           <Route path="Livedetect" element={<Livedetect />} />
           <Route path="About" element={<About />} />
           <Route path="PhotoVerify" element={<PhotoVerify />} />
+          <Route path="Verification" element={<Verification />} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Route>
       </Routes>
