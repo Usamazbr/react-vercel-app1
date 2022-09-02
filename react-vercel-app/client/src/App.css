@@ -1,10 +1,32 @@
 body{
-  background-color: rgb(53, 54, 58);
-  /* background-image: url('Images/tech-bg.jpg'); */
+  background-color: rgb(15, 17, 20);
+  /* background-image: url('Images/Black Pattern wallpaper.png'); */
   background-size: 100%;
   min-height: 100%;
   width: 100%;
   /* font-family: 'Kdam Thmor Pro', sans-serif; */
+}
+
+/* input[type="file"] {
+  display: none;
+} */
+
+.main {
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position:absolute;
+  top: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .homeP {

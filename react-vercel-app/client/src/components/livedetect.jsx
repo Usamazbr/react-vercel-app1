@@ -6,24 +6,6 @@ import "../App.css";
 // import "./css/App.scss";
 const apiUrl = `http://localhost:5000/api/lived`;
 
-const svgIcon = () => (
-    <svg
-        width="100%"
-        height="100%"
-        className="svg mx-auto "
-        viewBox="0 0 260 200"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink">
-        <defs>
-            <mask id="overlay-mask" x="0" y="0" width="100%" height="100%">
-                <rect x="0" y="0" width="100%" height="100%" fill="#fff" />
-                <circle cx="50%" cy="50%" r="65" />
-            </mask>
-        </defs>
-        <rect x="0" y="0" width="100%" height="100%" mask="url(#overlay-mask)" fillOpacity="0.9" />
-    </svg>
-);
 
 function Livedetect() {
     const webcamRef = React.useRef(null);
@@ -45,8 +27,7 @@ function Livedetect() {
                 apiUrl, data,
             )
             .then((res) => {
-                const result1 = res.data;
-                setResultb(result1);
+                setResultb(res.data);
                 setResult(res);
                 // console.log(res.data);
             })
@@ -66,89 +47,109 @@ function Livedetect() {
         }, 2000);
 
     };
+    const svgIcon = () => (
+        <svg
+            width="100%"
+            height="100%"
+            className="svg mx-auto rounded-lg"
+            viewBox="0 0 260 200"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink">
+            <defs>
+                <mask id="overlay-mask" x="0" y="0" width="100%" height="100%">
+                    <rect x="0" y="0" width="100%" height="100%" fill="#fff" />
+                    <circle cx="50%" cy="50%" r="65" />
+                </mask>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" mask="url(#overlay-mask)" fillOpacity="0.9" />
+        </svg>
+    );
 
     return (
         <div className="flex flex-col ">
-            <div className="max-w-6xl mx-auto flex p-4 bg-gray-900 mt-20 rounded-lg">
-                <div className="ml-6 pt-1">
+            <div className="max-w-6xl mx-auto flex p-4 bg-gray-900 mt-20 rounded-lg shadow-lg">
+                <div className="pt-1">
                     <h1 className="text-3xl font-bold text-blue-700 leading-tight text-center">
-                        Bioid Ware
+                        Livedetect
                     </h1>
                     <p className="mb-2 text-xl text-gray-600 leading-normal text-center">
                         Please place your face at the centre of the circle and at the size of it
                     </p>
-                    <div className="flex flex-row p-4 mx-auto w-4/5">
-                        <div className="webcam-container ">
-                            <Webcam
-                                className=""
-                                audio={false}
-                                height={200}
-                                mirrored
-                                ref={webcamRef}
-                                // forceScreenshotSourceSize = {true}
-                                // minScreenshotWidth={150}
-                                screenshotFormat="image/jpeg"
-                                width={480}
-                                videoConstraints={{
-                                    width: 390,
-                                    height: 400 / (4 / 3),
-                                    facingMode: "user",
-                                }}
-                            />
-                            <div className="overlay-container">
-                                {svgIcon()}
+                    <div className="flex flex-row">
+                        <div className="flex flex-row m-auto">
+                            <div className="webcam-container m-1">
+                                <Webcam
+                                    className="shadow-lg rounded-lg"
+                                    audio={false}
+                                    height={200}
+                                    mirrored
+                                    ref={webcamRef}
+                                    // forceScreenshotSourceSize = {true}
+                                    // minScreenshotWidth={150}
+                                    screenshotFormat="image/jpeg"
+                                    width={480}
+                                    videoConstraints={{
+                                        width: 390,
+                                        height: 400 / (4 / 3),
+                                        facingMode: "user",
+                                    }}
+                                />
+                                <div className="overlay-container">
+                                    {svgIcon()}
+                                </div>
+                            </div>
+                            <div className="flex flex-col p-4 rounded-lg">
+                                <div className="flex flex-wrap m-2 justify-center p-4 bg-indigo-900 text-blue-200 shadow-inner hover:text-white rounded-lg">
+                                    {Result ?
+                                        (<><div className="flex flex-col justify-center">Result is {Resultb ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1"> live</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">fake</h1>)}</div></>) : (<><h1 className="flex flex-wrap py-2 px-3 text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">No data</h1></>)}
+                                </div>
+                                <button
+                                    onClick={onVerify}
+                                    className="shadow-lg transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
+                                >
+                                    Start
+                                </button>
                             </div>
                         </div>
-                        <div className="flex flex-wrap">
-                            <div className="flex flex-auto mx-2 mb-40 ml-3 justify-center p-4 bg-indigo-900 text-blue-200 hover:text-white mt-3 rounded-lg">
-                                {Result ?
-                                    (<><div className="flex flex-wrap justify-center">Result is {Resultb ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1"> live</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">fake</h1>)}</div></>) : (<><h1 className="py-2 px-3">No data</h1></>)}
-                            </div>
-                            <button
-                                onClick={onVerify}
-                                className="transition duration-500 ease-in-out mx-2 bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 py-2 px-3 rounded-lg mx-auto"
-                            >
-                                Start
-                            </button>
+                        <div className="flex flex-col justify-center">
+                            {liveimg1 && (
+                                <img
+                                    height={150}
+                                    width={300}
+                                    src={liveimg1}
+                                    className="p-1 rounded-t-lg"
+                                    alt="imageI"
+                                />
+                            )}
+                            {liveimg2 && (
+                                <img
+                                    height={150}
+                                    width={300}
+                                    src={liveimg2}
+                                    className="p-1 rounded-b-lg"
+                                    alt="imageI"
+                                />
+                            )}
                         </div>
-                    </div>
-                    <div className="flex flex-wrap justify-center">
-                        {liveimg1 && (
-                            <img
-                                height={150}
-                                width={300}
-                                src={liveimg1}
-                                className="p-1 bg-gray-900 border border-gray-900 hover:border-gray-700 rounded-lg"
-                                alt="imageI"
-                            />
-                        )}
-                        {liveimg2 && (
-                            <img
-                                height={150}
-                                width={300}
-                                src={liveimg2}
-                                className="p-1 bg-gray-900 border border-gray-900 hover:border-gray-700 rounded-lg"
-                                alt="imageI"
-                            />
-                        )}
                     </div>
                 </div>
             </div>
             {/* <div className="flex flex-wrap mx-auto mt-3 bg-gray-900 text-blue-200 py-2 px-2 rounded-lg"> */}
             {/* <div className="flex flex-wrap mx-auto mb-3 bg-gray-900 py-2 px-12 rounded-lg"> */}
-            <button
+            {/* <button
                 onClick={onVerify}
                 className="transition duration-500 ease-in-out mt-3 bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 py-2 px-3 rounded-lg mx-auto"
             >
-                Try To see if User is Real
-            </button>
+                Try To see if User is Real */}
+            {/* </button> */}
             {/* </div> */}
             {/* <div className="flex flex-auto mx-auto mb-2 justify-center p-2 bg-indigo-900 text-blue-200 hover:text-white mt-3 py-2 px-3 rounded-lg">
                     {Result ?
                         (<><div>Result is {Resultb ? (<h1 className="flex flex-wrap justify-center text-green-500 font-bold">live</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold">fake</h1>)}</div></>) : (<><h1 className="flex flex-wrap justify-center pt-2">No data</h1></>)}
                 </div> */}
             {/* </div> */}
-            <div className="max-w-6xl mx-auto flex p-6 bg-gray-900 text-blue-200 mt-10 py-6 px-6 rounded-lg">
+            <div className="max-w-6xl mx-auto flex p-6 bg-gray-900 text-blue-200 mt-5 py-6 px-6 rounded-lg shadow-lg">
                 <p>
                     This demo performs a liveness detection on two selfies to verify whether they were recorded from a live person.
                 </p>
