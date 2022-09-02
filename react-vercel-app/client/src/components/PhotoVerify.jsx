@@ -31,7 +31,9 @@ function Livedetect() {
             .then((res) => {
                 setResultb(res.data.Success);
                 setResult(res.data.AccuracyLevel);
-                console.log(Resultb);
+                setTimeout(() => {
+                    console.log(!Resultb);
+                }, 2000)
             })
             .catch((err) => {
                 console.log(err);
@@ -96,7 +98,7 @@ function Livedetect() {
                         centre of the circle and at the size of it before clicking on start
                     </p>
                     <div className="flex flex-row p-4 m-auto w-4/5">
-                        <div className="webcam-container m-1">
+                        <div className="webcam-container">
                             <Webcam
                                 className="shadow-lg rounded-lg"
                                 audio={false}
@@ -117,10 +119,10 @@ function Livedetect() {
                                 {svgIcon()}
                             </div>
                         </div>
-                        <div className="flex flex-col p-4 rounded-lg">
-                            <div className="flex flex-wrap m-2 justify-center p-2 bg-indigo-900 text-blue-200 shadow-inner hover:text-white rounded-lg">
+                        <div className="flex flex-col ml-4 rounded-lg">
+                            <div className="flex flex-wrap m-1 justify-center p-2 bg-indigo-900 text-blue-200 shadow-inner hover:text-white rounded-lg">
                                 {Resultb ?
-                                    (<><div className="flex flex-wrap justify-center">Accuracy is {Result ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1">5</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">0</h1>)}</div></>) : (<><h1 className="flex flex-wrap py-2 px-3 text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">False Image</h1></>)}
+                                    (<><div className="flex flex-wrap justify-center">Accuracy is {Result ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1">5</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">0</h1>)}</div></>) : (<><h1 className="flex flex-wrap py-2 px-2 mx-2 text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">False Image</h1></>)}
                             </div>
                             {/* <button
                                 // onClick={ }
@@ -187,7 +189,7 @@ function Livedetect() {
                                     height={70}
                                     width={100}
                                     src={require("../Images/48045-short-pillar-clipart.png")}
-                                    className=""
+                                    className="h-full"
                                     alt="No ImageI"
                                 />
                             </div>
