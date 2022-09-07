@@ -116,11 +116,11 @@ function Verification() {
                     </div>
                     <div className="mx-auto flex flex-row-reverse">
                         <div className="flex flex-col p-2 h-full w-2/5 text-center rounded-lg">
-                            <div className="m-2 p-2 bg-blue-900 text-blue-200 text-center rounded-lg">
+                            <div className="m-2 p-2 shadow-inner bg-blue-900 text-blue-200 text-center rounded-lg">
                                 {ResultErr ?
-                                    (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1">No Face Detected</h1>) : (<><div className="flex flex-wrap justify-center">
+                                    (<h1 className="flex flex-wrap justify-center text-base text-red-500 font-bold mx-1">No Face Detected</h1>) : (<><div className="flex flex-wrap justify-center">
                                         {Resultb ?
-                                            (<><div className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1 " data-tooltip-target="tooltip-right" data-tooltip-placement="right"><div className="tooltip">Image Accepted<span className="tooltiptext">Warning: {ResultWar}</span></div></div></>) : (<><h1 className="flex flex-wrap text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">No upload</h1></>)}</div></>)}
+                                            (<><div className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1 " data-tooltip-target="tooltip-right" data-tooltip-placement="right"><div className="tooltip">Image Accepted<span className="tooltiptext3">Warning: {ResultWar}</span></div></div></>) : (<><h1 className="flex flex-wrap text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">No upload</h1></>)}</div></>)}
                             </div>
                         </div>
                         <div className="flex flex-col p-2 m-auto w-3/5 rounded-lg">
@@ -134,7 +134,7 @@ function Verification() {
                                         <input
                                             style={{ display: "none" }}
                                             type="file"
-                                            className="m-4"
+                                            className="m-4 shadow-inner"
                                             onChange={fileSelectHandler}
                                         // ref={fileInput => this.fileInput = fileInput} 
                                         />
@@ -172,7 +172,7 @@ function Verification() {
                                     className="shadow-lg mt-2 transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
                                 >
                                     <div className="tooltip">Verification
-                                        <span className="tooltiptext">Verify the snap is the same person as uploaded database</span>
+                                        <span className="tooltiptext2">Verify the snap is the same person as uploaded database</span>
                                     </div>
                                 </button>
                             </div>
