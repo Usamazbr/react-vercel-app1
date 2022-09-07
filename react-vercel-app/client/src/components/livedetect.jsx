@@ -108,8 +108,15 @@ function Livedetect() {
                                     onClick={onVerify}
                                     className="shadow-lg transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
                                 >
-                                    Start
+                                    <div className="tooltip">Start
+                                        <span className="tooltiptext">This will take two images with a 2 sec break<br />Try to move slighty in an arbitrary direction while remaining inside the circle before the second screenshot</span>
+                                    </div>
                                 </button>
+                                {/* <button data-tooltip-target="tooltip-right" data-tooltip-placement="right" type="button" className="mb-2 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tooltip right</button>
+                                <div id="tooltip-right" role="tooltip" className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                    Tooltip on right
+                                    <div className="tooltip-arrow" data-popper-arrow></div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="flex flex-col justify-center">

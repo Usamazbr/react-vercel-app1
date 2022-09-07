@@ -8,7 +8,7 @@ import "../Images/Building-Pillar.png";
 const apiUrl = `http://localhost:5000/api/photov`;
 
 
-function Livedetect() {
+function PhotoVerify() {
     const webcamRef = React.useRef(null);
     const [liveimg1, setImage1] = useState("");
     const [liveimg2, setImage2] = useState("");
@@ -80,7 +80,9 @@ function Livedetect() {
         fileread.readAsDataURL(file1)
         fileread.onload = function () {
             setImage3(fileread.result);
-            console.log(idimage);
+            setTimeout(() => {
+                console.log(idimage);
+            }, 2000)
         };
     }
 
@@ -92,10 +94,7 @@ function Livedetect() {
                         PhotoVerify
                     </h1>
                     <p className="text-lg text-gray-600 leading-normal text-center">
-                        Please upload your ID image first then place your face at the
-                    </p>
-                    <p className="text-lg text-gray-600 leading-normal text-center">
-                        centre of the circle and at the size of it before clicking on start
+                        Please upload your ID image first then place your face at the <br /> centre of the circle and at the size of it before clicking on start
                     </p>
                     <div className="flex flex-row p-4 m-auto w-4/5">
                         <div className="webcam-container">
@@ -151,9 +150,14 @@ function Livedetect() {
                             </button> */}
                             <button
                                 onClick={onVerify}
+                                data-tooltip-target="tooltip-right"
+                                data-tooltip-placement="right"
+                                type="button"
                                 className="shadow-lg transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:-translate-y-1 hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
                             >
-                                Start
+                                <div className="tooltip">Start
+                                    <span className="tooltiptext">This will take two images with a 2 sec break<br />Try to move slighty in an arbitrary direction while remaining inside the circle before the second screenshot</span>
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -220,4 +224,4 @@ function Livedetect() {
     );
 }
 
-export default Livedetect;
+export default PhotoVerify;
