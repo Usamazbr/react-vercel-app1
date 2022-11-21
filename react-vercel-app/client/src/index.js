@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Livedetect from "./components/Livedetect";
+import Test from "./components/Test";
 import About from "./components/About";
 import PhotoVerify from "./components/PhotoVerify";
 import Verification from "./components/Verification";
@@ -21,6 +22,7 @@ root.render(
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="Livedetect" element={<Livedetect />} />
+          <Route path="Test" element={<Test />} />
           <Route path="About" element={<About />} />
           <Route path="PhotoVerify" element={<PhotoVerify />} />
           <Route path="Verification" element={<Verification />} />

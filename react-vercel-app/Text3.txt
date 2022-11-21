@@ -1,0 +1,292 @@
+import React, { useState, useEffect } from "react";
+import Webcam from "react-webcam";
+import axios from 'axios';
+import "../App.css";
+
+
+const apiUrl = `http://localhost:5000/api/upload`;
+const apiUrl2 = `http://localhost:5000/api/enroll`;
+
+
+
+function Verification() {
+    // const webcamRef = React.useRef(null);
+    const [idimage, setImage3] = useState("");
+    const [bcId, setBcid] = useState("");
+
+    const [Resultb, setResultb] = useState();
+    // const [Result, setResult] = useState();
+    const [ResultErr, setResultErr] = useState();
+    const [ResultWar, setResultWar] = useState();
+    const [Termin, setTermin] = useState(0);
+    const [Enable, setEnable] = useState(false);
+
+    const [Filename, setFilename] = useState();
+
+    useEffect(() => {
+        // console.log();
+    }, []);
+
+    // setBcid(1);
+    const Enroll = () => {
+
+        const body = { biov_id: bcId };
+        axios
+            .post(
+                apiUrl2, body,
+            )
+            .then((res) => {
+                // console.log("hello");
+                // setResult(res.data);
+                // setResultb(res.data.Accepted);
+                // setResultErr(res.data.Error);
+                // setResultWar(res.data.Warnings);
+                // setTimeout(() => {
+                //     console.log(Resultb);
+                // }, 3000)
+            })
+            .catch((err) => {
+                console.log(err.message);
+                // setTermin(Termin + 1);
+                // if (Termin < 4) {
+                //     Uploader();
+                // }
+            });
+    }
+
+    const Uploader = () => {
+        // const cleanerBase64 = idimage.substring(0);
+        // const cleanerBase64 = idimage.slice(0, 23) + idimage.slice(24);
+        // console.log(idimage)
+        const body = { material: idimage };
+        axios
+            .post(
+                apiUrl, body,
+            )
+            .then((res) => {
+                // console.log("hello");
+                // setResult(res.data);
+                setResultb(res.data.Accepted);
+                setResultErr(res.data.Error);
+                setResultWar(res.data.Warnings);
+                setTimeout(() => {
+                    console.log(Resultb);
+                    setBcid(res.data.tokenr);
+                }, 3000)
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setTermin(Termin + 1);
+                if (Termin < 4) {
+                    Uploader();
+                }
+            });
+    }
+
+    const fileSelectHandler = e => {
+        let file1 = e.target.files[0];
+        // getFileData(file1);
+        setResultb("");
+        setResultErr("");
+        setTermin(0);
+        setFilename(file1.name);
+        console.log(file1.name);
+        let fileread = new FileReader();
+        fileread.readAsDataURL(file1)
+        fileread.onload = function () {
+            setImage3(fileread.result);
+            // setTimeout(() => {
+            //     console.log(idimage);
+            // }, 4000)
+        };
+        // setTimeout(() => {
+        //     fileread.readAsDataURL(file1);
+        // }, 3000)
+    }
+
+    const stopcam = () => {
+        var checkBox = document.getElementById("myCheck");
+
+        if (checkBox.checked === true) {
+            setEnable(true);
+            console.log(Enable);
+        } else {
+            setEnable(false);
+            console.log(Enable);
+        }
+    };
+
+
+    return (
+        <div className="flex flex-row-reverse m-auto">
+            <div className="flex flex-col bg-gray-800 w-2/5 mt-20 mx-10 rounded-lg">
+                <div className="mx-auto p-5 rounded-lg">
+                    <h1 className="text-3xl font-bold text-blue-700 hover:text-white leading-tight text-center">
+                        Description
+                    </h1>
+                </div>
+                {/* <div className="text-base text-blue-200 hover:text-white leading-tight text-center">
+                    <p>
+                        This demo performs complete set of operations.
+                    </p>
+                </div> */}
+                <form class="w-full max-w-sm">
+                    <div class="flex items-center border-b border-teal-500 py-2">
+                        <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Jane Doe" aria-label="Full name" />
+                        <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
+                            Sign Up
+                        </button>
+                        <button class="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded" type="button">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div className="flex flex-col rounded-lg w-2/5 mr-20 ml-10 m-auto mt-20">
+                <div className="mx-auto flex p-3 bg-cyan-500 shadow-md shadow-cyan-500/50 rounded-lg">
+                    <div className="">
+                        <h1 className="text-3xl font-bold text-white hover:text-zinc-800 leading-tight text-center">
+                            Verification
+                        </h1>
+                    </div>
+                </div>
+                <div className="mx-auto flex flex-row bg-transparent mt-4 rounded-lg">
+                    <div className="w-56 mr-4">
+                        <div className="webcam-container shadow-md shadow-cyan-500/50 mr-2 p-2 h-72 w-full rounded-lg">
+                            {Enable ?
+                                (<><Webcam
+                                    className="shadow h-full shadow-gray-900 rounded-lg "
+                                    audio={false}
+                                    height={200}
+                                    mirrored
+                                    // ref={webcamRef}
+                                    // forceScreenshotSourceSize = {true}
+                                    // minScreenshotWidth={150}
+                                    screenshotFormat="image/jpeg"
+                                    width={480}
+                                    videoConstraints={{
+                                        width: 200,
+                                        height: 200 / (4 / 3),
+                                        facingMode: "user",
+                                    }}
+                                />
+                                    <div className="overlay-container">
+                                        {/* {svgIcon()} */}
+                                    </div></>) : (<></>)
+                            }
+                        </div>
+                        <div className="flex flex-row">
+                            {/* <button
+                                    onClick={stopcam}
+                                    data-tooltip-target="tooltip-right"
+                                    data-tooltip-placement="right"
+                                    type="button"
+                                    className="shadow-lg h-auto my-2 transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
+                                >
+                                    <div className="tooltip">Disable
+                                        <span className="tooltiptext2">Turns camera on and off</span>
+                                    </div>
+                                </button> */}
+                            <label className="switch ml-4 my-2 w-1/4">
+                                <input type="checkbox" id="myCheck" onClick={stopcam} />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div className="flex flex-col p-5 h-full w-2/3 bg-gray-800 shadow-md shadow-gray-800/50 rounded-lg">
+                        <div className="">
+                            <p className="text-lg font-bold text-blue-700 leading-tight text-center">
+                                Upload, Enrollment and Verification
+                            </p>
+                        </div>
+                        <div className="mx-auto flex flex-row-reverse">
+                            <div className="flex flex-col p-2 h-full w-1/2 text-center rounded-lg">
+                                <div className="my-2 p-2 bg-blue-600 shadow-inner shadow-blue-600/50 text-blue-200 text-center rounded-xl">
+                                    {/* {Filename} */}
+                                    <>{Filename ? ((Filename.length < 20) ? (<p>{Filename}</p>) : (<p>{Filename.substring(0, 11) + "..."}<br />{Filename.substring((Filename.length - 11), Filename.length)}</p>)) : (<p>File name</p>)}</>
+                                </div>
+                                <div className="my-2 bg-transparent rounded-xl">
+                                    {ResultErr ?
+                                        (<h1 className="p-2  bg-blue-500 text-base text-red-500 font-bold rounded-lg">{ResultErr.replace(/([a-z])([A-Z])/g, '$1 $2')}</h1>) : (<><div className="">
+                                            {Resultb ?
+                                                (<><div className="p-2 text-base bg-blue-800 text-lime-500 font-bold rounded-lg" data-tooltip-target="tooltip-right" data-tooltip-placement="right"><div className="tooltip">Image Accepted
+                                                    {ResultWar[0] ?
+                                                        (<span className="tooltiptext4">Warning: {ResultWar.map(ResultWar => (<p>{ResultWar.replace(/([a-z])([A-Z])/g, '$1 $2')} <br /></p>))}</span>) : (<span className="tooltiptext4">No Warnings {":)"}</span>)}</div></div></>) : (<><h1 className="p-2 text-center bg-blue-500 hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">No upload
+                                                        </h1></>)}
+                                        </div></>)}
+                                </div>
+                            </div>
+                            <div className="flex flex-col p-2 m-auto w-1/2 rounded-lg">
+                                <div className="flex flex-col ml-4 rounded-lg">
+                                    {/* <div className="flex flex-wrap m-1 justify-center p-2 bg-indigo-900 text-blue-200 shadow-inner hover:text-white rounded-lg">
+                                        {Resultb ?
+                                            (<><div className="flex flex-wrap justify-center">Accuracy is {Result ? (<h1 className="flex flex-wrap justify-center text-base text-green-500 font-bold mx-1">5</h1>) : (<h1 className="flex flex-wrap justify-center text-red-500 font-bold mx-1">0</h1>)}</div></>) : (<><h1 className="flex flex-wrap py-2 px-2 mx-2 text-center hover:underline hover:bg-red-400 hover:text-gray-900 rounded-lg">False Image</h1></>)}
+                                    </div> */}
+                                    <div className="transition duration-500 flex flex-wrap m-2 justify-center bg-blue-900 hover:bg-white text-blue-100 shadow-inner font-bold hover:text-blue-900 border-transparent border-2 hover:border-blue-900 focus:outline-none rounded-xl">
+                                        <label className="text-center custom-file-upload p-2 rounded-xl">
+                                            <input
+                                                style={{ display: "none" }}
+                                                type="file"
+                                                className="m-4 shadow-inner"
+                                                onChange={fileSelectHandler}
+                                            // ref={fileInput => this.fileInput = fileInput} 
+                                            />
+                                            {/* {Filename ? (<p>{Filename}</p>) : (<p>Upload Image</p>)} */}
+                                            Upload Image
+                                        </label>
+                                    </div>
+                                    <button
+                                        onClick={Uploader}
+                                        data-tooltip-target="tooltip-right"
+                                        data-tooltip-placement="right"
+                                        type="button"
+                                        className="shadow-lg transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:scale-110 focus:outline-none focus:ring focus:ring-violet-300 py-2 px-3 rounded-lg"
+                                    >
+                                        <div className="tooltip">Confirm
+                                            {/* <span className="tooltiptext3">Click again if Image isn't accepted</span> */}
+                                        </div>
+                                    </button>
+                                    <button
+                                        onClick={Enroll}
+                                        data-tooltip-target="tooltip-right"
+                                        data-tooltip-placement="right"
+                                        type="button"
+                                        className="shadow-lg mt-2 transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
+                                    >
+                                        <div className="tooltip">Enrollment
+                                            <span className="tooltiptext">This will enroll the images onto the database</span>
+                                        </div>
+                                    </button>
+                                    <button
+                                        // onClick={onVerify}
+                                        data-tooltip-target="tooltip-right"
+                                        data-tooltip-placement="right"
+                                        type="button"
+                                        className="shadow-lg mt-2 transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
+                                    >
+                                        <div className="tooltip">Verification
+                                            <span className="tooltiptext2">Verify the snap is the same person as uploaded database</span>
+                                        </div>
+                                    </button>
+                                    <button
+                                        // onClick={onVerify}
+                                        data-tooltip-target="tooltip-right"
+                                        data-tooltip-placement="right"
+                                        type="button"
+                                        className="shadow-lg mt-2 transition duration-500 ease-in-out m-auto bg-blue-700 hover:bg-gray-700 text-blue-200 font-bold hover:text-white transform hover:scale-110 focus:outline-none py-2 px-3 rounded-lg"
+                                    >
+                                        <div className="tooltip">Delete class
+                                            <span className="tooltiptext2">Verify the snap is the same person as uploaded database</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div >
+    );
+};
+
+export default Verification;
